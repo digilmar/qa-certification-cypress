@@ -1,131 +1,70 @@
-# 🚀 Projeto de Automação de Testes - CertiQA Academy
+# Projeto de Automação de Testes - CertiQA Academy
 
-Projeto de automação de testes End-to-End (E2E) desenvolvido com **Cypress**, com o objetivo de validar os principais fluxos da plataforma **CertiQA Academy**, da Qazando.
+Projeto de automação de testes End-to-End (E2E) com **Cypress** para validar os principais fluxos da plataforma CertiQA Academy, da Qazando, incluindo login, cadastro e quizzes das certificações CTFL e CTFL-AT.
 
-A plataforma é voltada para profissionais que desejam se preparar para certificações em Qualidade de Software, como a **ISTQB CTFL**, oferecendo conteúdos, simulados e acompanhamento da evolução dos alunos. :contentReference[oaicite:0]{index=0}
+## Aplicação
 
----
+URL: https://certiqa.qazando.com.br/
 
-## 🌐 Aplicação
+## Tecnologias
 
-**URL:**
-https://certiqa.qazando.com.br/
-
----
-
-## 🎯 Objetivo
-
-Garantir a qualidade da aplicação automatizando os principais fluxos do usuário, como:
-
-- Login
-- Navegação pela plataforma
-- Fluxos exploratórios
-- Smoke Test
-- Validação de funcionalidades críticas
-
-O projeto foi desenvolvido seguindo boas práticas de automação para facilitar manutenção, escalabilidade e reutilização dos testes.
-
----
-
-## 🛠 Tecnologias
-
-- Cypress
+- Cypress 15
 - JavaScript
-- Node.js
-- npm
+- Node.js e npm
 
----
-
-## 📁 Estrutura do Projeto
-
-Conforme a estrutura atual do projeto:
+## Estrutura do projeto
 
 ```text
-cypress/
-│
-├── e2e/
-│   ├── explorer.cy.js
-│   ├── login.cy.js
-│   └── smoke.cy.js
-│
-├── support/
-│
-node_modules/
-.gitignore
-cypress.config.js
-package.json
-package-lock.json
+.
+├── cypress
+│   ├── e2e
+│   │   ├── cadastro_usuarios.cy.js
+│   │   ├── ctfl-at_fase_1.cy.js
+│   │   ├── ctfl-at_fase_2.cy.js
+│   │   ├── ctfl-at_fase_3.cy.js
+│   │   ├── ctfl_fase1.cy.js
+│   │   ├── ctfl_fase2.cy.js
+│   │   ├── ctfl_fase3.cy.js
+│   │   ├── ctfl_fase4.cy.js
+│   │   ├── ctfl_fase5.cy.js
+│   │   ├── ctfl_fase6.cy.js
+│   │   ├── login.cy.js
+│   │   └── smoke.cy.js
+│   ├── fixtures
+│   │   └── arquivos JSON com dados dos quizzes
+│   └── support
+│       ├── commands.js
+│       ├── e2e.js
+│       └── quizActions.js
+├── cypress.config.js
+├── package.json
+└── package-lock.json
 ```
 
-### Descrição dos testes
+Os testes `ctfl_fase*.cy.js` cobrem quizzes da certificação CTFL; `ctfl-at_fase_*.cy.js`, os quizzes CTFL-AT. Os dados dos quizzes ficam em `cypress/fixtures`, e as ações reutilizáveis ficam em `cypress/support/quizActions.js`.
 
-| Arquivo | Descrição |
-|----------|-----------|
-| **login.cy.js** | Testes relacionados à autenticação dos usuários. |
-| **explorer.cy.js** | Fluxos de navegação e exploração da aplicação. |
-| **smoke.cy.js** | Testes rápidos para validar as principais funcionalidades da plataforma. |
+## Instalação
 
----
-
-## ⚙️ Instalação
-
-Clone o projeto
+Clone o repositório e instale as dependências:
 
 ```bash
 git clone https://github.com/digilmar/qa-certification-cypress.git
-```
-
-Entre na pasta
-
-```bash
 cd qa-certification-cypress
-```
-
-Instale as dependências
-
-```bash
 npm install
 ```
 
----
+## Executando os testes
 
-## ▶️ Executando os testes
-
-### Abrir o Cypress
+Abrir o Cypress:
 
 ```bash
-npx cypress open
+npm run cy:open
 ```
 
-### Executar em modo Headless
+Executar todos os testes em modo headless:
 
 ```bash
-npx cypress run
+npm run cy:run
 ```
 
----
-
-## 📌 Estrutura dos testes
-
-Os cenários foram organizados por funcionalidade, facilitando:
-
-- manutenção;
-- reutilização;
-- leitura dos testes;
-- evolução do projeto.
-
----
-
-## 📈 Boas práticas adotadas
-
-- Organização dos cenários por funcionalidade;
-- Código limpo e legível;
-- Separação dos testes por contexto;
-- Fácil escalabilidade para novos cenários;
-- Projeto preparado para integração contínua (CI).
-
----
-
-## 👨‍💻 Autor
-
-Projeto desenvolvido para fins de estudo e prática em automação de testes utilizando Cypress na plataforma **CertiQA Academy - Qazando**.
+O comando `npm test` também executa os testes em modo headless.
