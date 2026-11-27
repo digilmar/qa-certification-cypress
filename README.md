@@ -29,6 +29,7 @@ URL: https://certiqa.qazando.com.br/
 │   │   ├── ctfl_fase5.cy.js
 │   │   ├── ctfl_fase6.cy.js
 │   │   ├── login.cy.js
+│   │   ├── simulado_ctfl.cy.js
 │   │   └── smoke.cy.js
 │   ├── fixtures
 │   │   └── arquivos JSON com dados dos quizzes
@@ -41,7 +42,7 @@ URL: https://certiqa.qazando.com.br/
 └── package-lock.json
 ```
 
-Os testes `ctfl_fase*.cy.js` cobrem quizzes da certificação CTFL; `ctfl-at_fase_*.cy.js`, os quizzes CTFL-AT. Os dados dos quizzes ficam em `cypress/fixtures`, e as ações reutilizáveis ficam em `cypress/support/quizActions.js`.
+Os testes `ctfl_fase*.cy.js` cobrem quizzes da certificação CTFL; `ctfl-at_fase_*.cy.js`, os quizzes CTFL-AT. O teste `simulado_ctfl.cy.js` percorre as 40 questões do simulado final CTFL, escolhe uma alternativa aleatória por questão, envia as respostas e verifica se a pontuação é exibida. A pontuação esperada não é fixa. Os dados dos quizzes ficam em `cypress/fixtures`, e as ações reutilizáveis ficam em `cypress/support/quizActions.js`.
 
 ## Instalação
 
@@ -58,13 +59,19 @@ npm install
 Abrir o Cypress:
 
 ```bash
-npm run cy:open
+npx cypress open
 ```
 
 Executar todos os testes em modo headless:
 
 ```bash
-npm run cy:run
+npx cypress run
+```
+
+Executar somente o simulado CTFL:
+
+```bash
+npx cypress run --spec "cypress/e2e/simulado_ctfl.cy.js"
 ```
 
 O comando `npm test` também executa os testes em modo headless.
