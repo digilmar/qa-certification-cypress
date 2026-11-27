@@ -25,7 +25,8 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 const realizarLogin = (email, password) => {
-  cy.visit('/login')
+  cy.visit('/')
+  cy.get('.gap-4 > .border').click()
   cy.get('#email').clear().type(email)
   cy.get('#password').clear().type(password)
   cy.get('.inline-flex').click()
@@ -35,4 +36,3 @@ const realizarLogin = (email, password) => {
 
 Cypress.Commands.add('realizarLogin', realizarLogin)
 Cypress.Commands.add('login', realizarLogin)
-

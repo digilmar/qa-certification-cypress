@@ -20,6 +20,47 @@ const responderQuestionario = (respostas) => {
   })
 }
 
+const responderSimulado = (totalQuestoes) => {
+  let questoesRespondidas = 0
+
+  for (let numero = 1; numero <= totalQuestoes; numero += 1) {
+    cy.contains(new RegExp(`^Questão\\s+${numero}\\s+de\\s+${totalQuestoes}$`, 'i'), {
+      timeout: 15000,
+    })
+      .scrollIntoView()
+      .should('be.visible')
+      .then(($cabecalho) => {
+        const $blocoQuestao = Cypress.$($cabecalho)
+          .parents()
+          .filter((_, elemento) => Cypress.$(elemento).find('label').length > 0)
+          .first()
+
+        expect($blocoQuestao, `bloco da questão ${numero}`).to.have.length(1)
+
+        const $alternativas = $blocoQuestao.find('label')
+        expect($alternativas.length, `alternativas da questão ${numero}`).to.be.greaterThan(1)
+
+        const $alternativa = $alternativas.eq(
+          Math.floor(Math.random() * $alternativas.length)
+        )
+
+        cy.wrap($alternativa)
+          .scrollIntoView()
+          .click({ force: true })
+          .then(() => {
+            questoesRespondidas += 1
+          })
+      })
+  }
+
+  cy.then(() => {
+    expect(questoesRespondidas).to.equal(totalQuestoes)
+    cy.scrollTo('bottom')
+  }).then(() => {
+    clicarBotaoQuiz(/^Enviar Simulado/i)
+  })
+}
+
 const abrirFaseDoQuiz1 = () => {
   cy.visit('/certificacoes')
   cy.contains('a', /^Iniciar Estudo$/i).click()
@@ -78,6 +119,18 @@ const abrirFaseDoQuiz6 = () => {
   cy.get('a[href="/certificacoes/ctfl/fase/test-management"]').first().click()
   cy.location('pathname').should('eq', '/certificacoes/ctfl/fase/test-management')
   cy.contains('button', /Iniciar Quiz|Refazer Quiz|Continuar estudo|Revisar fase/i).click()
+}
+
+const abrirSimuladoCTFL = () => {
+  cy.visit('/certificacoes')
+  cy.contains('a[href="/certificacoes/ctfl"]', /^Iniciar Estudo$/i).click()
+  cy.location('pathname').should('eq', '/certificacoes/ctfl')
+  cy.contains('Seu Progresso').should('be.visible')
+  cy.scrollTo('bottom')
+  cy.contains(/Revisar\s+Simulado/i, { timeout: 15000 })
+    .should('be.visible')
+    .click()
+  clicarBotaoQuiz(/^Iniciar Simulado$/i)
 }
 
 const abrirFaseDoQuizCTFLAT1 = () => {
@@ -139,12 +192,14 @@ const abrirFaseDoQuizCTFLAT3 = () => {
 }
 
 Cypress.Commands.add('responderQuestionario', responderQuestionario)
+Cypress.Commands.add('responderSimulado', responderSimulado)
 Cypress.Commands.add('abrirFaseDoQuiz1', abrirFaseDoQuiz1)
 Cypress.Commands.add('abrirFaseDoQuiz2', abrirFaseDoQuiz2)
 Cypress.Commands.add('abrirFaseDoQuiz3', abrirFaseDoQuiz3)
 Cypress.Commands.add('abrirFaseDoQuiz4', abrirFaseDoQuiz4)
 Cypress.Commands.add('abrirFaseDoQuiz5', abrirFaseDoQuiz5)
 Cypress.Commands.add('abrirFaseDoQuiz6', abrirFaseDoQuiz6)
+Cypress.Commands.add('abrirSimuladoCTFL', abrirSimuladoCTFL)
 Cypress.Commands.add('abrirFaseDoQuizCTFLAT1', abrirFaseDoQuizCTFLAT1)
 Cypress.Commands.add('abrirFaseDoQuizCTFLAT2', abrirFaseDoQuizCTFLAT2)
 Cypress.Commands.add('abrirFaseDoQuizCTFLAT3', abrirFaseDoQuizCTFLAT3)
